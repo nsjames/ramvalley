@@ -1,5 +1,7 @@
 # Ram Valley
 
+![img.png](img.png)
+
 This is a fullstack blockchain example application that shows off ways you can use RAM for novel applications. 
 
 This type of application can only be done on EOS (and other Antelope-based chains) because of the unique resource model. 

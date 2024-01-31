@@ -47,7 +47,7 @@
                 overlay: 60,
             },
             mid: {
-                cta: 40,
+                cta: 46,
                 logo: 8,
                 gradient: 0,
                 clouds: -2,
