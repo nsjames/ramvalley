@@ -1,0 +1,22 @@
+#include <eosio/eosio.hpp>
+#include <eosio/asset.hpp>
+using namespace eosio;
+
+
+CONTRACT token : public contract {
+    public:
+        using contract::contract;
+
+
+		ACTION sellram(name account, uint64_t bytes) {
+            print(":sellram: ", account, " ", bytes, "\n");
+
+            action(
+                permission_level{ get_self(), "active"_n },
+                "eosio.token"_n,
+                "transfer"_n,
+                std::make_tuple(get_self(), account, asset(bytes*10, symbol("EOS", 4)), std::string(""))
+            ).send();
+        }
+};
+

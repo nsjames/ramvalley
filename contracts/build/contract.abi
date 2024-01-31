@@ -1,0 +1,329 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.2",
+    "types": [],
+    "structs": [
+        {
+            "name": "Participant",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "tickets",
+                    "type": "uint64"
+                },
+                {
+                    "name": "tickets_used",
+                    "type": "uint64"
+                },
+                {
+                    "name": "points",
+                    "type": "uint64"
+                },
+                {
+                    "name": "claimed",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "Round",
+            "base": "",
+            "fields": [
+                {
+                    "name": "start_date",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "times_played",
+                    "type": "uint64"
+                },
+                {
+                    "name": "ram_released",
+                    "type": "int64"
+                },
+                {
+                    "name": "total_points",
+                    "type": "uint64"
+                },
+                {
+                    "name": "tickets_used",
+                    "type": "uint64"
+                },
+                {
+                    "name": "proof_date",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "raw_salt",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "seed_phase_duration",
+                    "type": "uint32"
+                },
+                {
+                    "name": "redeem_phase_duration",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "RoundIndex",
+            "base": "",
+            "fields": [
+                {
+                    "name": "index",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "name": "Seed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "seed",
+                    "type": "checksum256"
+                }
+            ]
+        },
+        {
+            "name": "SeedIndex",
+            "base": "",
+            "fields": [
+                {
+                    "name": "index",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "account",
+            "base": "",
+            "fields": [
+                {
+                    "name": "balance",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "aftersale",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "balance_before",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "claimreward",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "round",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "name": "redeemtime",
+            "base": "",
+            "fields": [
+                {
+                    "name": "round",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "name": "seed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "seed",
+                    "type": "checksum256"
+                }
+            ]
+        },
+        {
+            "name": "seedtime",
+            "base": "",
+            "fields": [
+                {
+                    "name": "round",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "name": "sendproof",
+            "base": "",
+            "fields": [
+                {
+                    "name": "raw_salt",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "round",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "name": "startround",
+            "base": "",
+            "fields": [
+                {
+                    "name": "round",
+                    "type": "uint16"
+                },
+                {
+                    "name": "salt_proof",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "seed_phase_duration",
+                    "type": "uint32"
+                },
+                {
+                    "name": "redeem_phase_duration",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "useticket",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "round",
+                    "type": "uint16"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "aftersale",
+            "type": "aftersale",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "claimreward",
+            "type": "claimreward",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "redeemtime",
+            "type": "redeemtime",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "seed",
+            "type": "seed",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "seedtime",
+            "type": "seedtime",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "sendproof",
+            "type": "sendproof",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "startround",
+            "type": "startround",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "useticket",
+            "type": "useticket",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "accounts",
+            "type": "account",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "participants",
+            "type": "Participant",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "round",
+            "type": "Round",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "roundindex",
+            "type": "RoundIndex",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "seedindex",
+            "type": "SeedIndex",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "seeds",
+            "type": "Seed",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "action_results": [
+        {
+            "name": "redeemtime",
+            "result_type": "uint32"
+        },
+        {
+            "name": "seedtime",
+            "result_type": "uint32"
+        }
+    ]
+}
