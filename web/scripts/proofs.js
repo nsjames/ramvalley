@@ -67,6 +67,44 @@ const generateRoundData = (index) => {
 
     let currentRound = 0;
 
+    const startNewRound = async (roundindex) => {
+        console.log('Current round is already finished, starting new round: ', roundindex);
+        const seedPhaseDuration = parseFloat(process.env.PROOF_SCRIPT_SEED_PHASE_DURATION_HOURS || 24) * 60 * 60;
+        const redeemPhaseDuration = parseFloat(process.env.PROOF_SCRIPT_REDEEM_PHASE_DURATION_HOURS || 48) * 60 * 60;
+
+        const hashes = generateRoundData(roundindex);
+        const created = await session.transact({
+            actions: [
+                {
+                    account: contractName,
+                    name: 'startround',
+                    authorization: [session.permissionLevel],
+                    data: {
+                        round: roundindex,
+                        salt_proof: hashes.proofHash,
+                        seed_phase_duration: seedPhaseDuration,
+                        redeem_phase_duration: redeemPhaseDuration,
+                    }
+                },
+                {
+                    account: 'eosio',
+                    name: 'buyrambytes',
+                    authorization: [session.permissionLevel],
+                    data: {
+                        payer: session.actor,
+                        receiver: contractName,
+                        bytes: 1217
+                    }
+                }
+            ]
+        }).then(async x => {
+            console.log(`Started round ${roundindex} - ${x.response.transaction_id}`);
+            return true;
+        }).catch(err => {
+            console.error(err)
+            return null;
+        });
+    }
 
     const checkRound = async () => {
         const roundindex = await contract.table('roundindex').get(null, {scope:0}).then(x => {
@@ -75,6 +113,10 @@ const generateRoundData = (index) => {
             console.error(err)
             return null;
         });
+
+        if(!roundindex){
+            return startNewRound(0);
+        }
 
         const currentRoundData = await contract.table('round').get(null, {scope:roundindex}).then(x => {
             return JSON.parse(JSON.stringify(x));
@@ -91,52 +133,22 @@ const generateRoundData = (index) => {
             console.log(`[${new Date().toLocaleString()}] Checking round ${roundindex}`)
         }
 
-        if(currentRoundData.raw_salt !== "0000000000000000000000000000000000000000000000000000000000000000"){
-            console.log('Current round is already finished, starting new round.');
+        const proof = jsonData[roundindex];
 
-            const seedPhaseDuration = parseFloat(process.env.PROOF_SCRIPT_SEED_PHASE_DURATION_HOURS || 24) * 60 * 60;
-            const redeemPhaseDuration = parseFloat(process.env.PROOF_SCRIPT_REDEEM_PHASE_DURATION_HOURS || 48) * 60 * 60;
+        const seedPhaseElapsed = +new Date(currentRoundData.start_date) + (currentRoundData.seed_phase_duration * 1000) <= +new Date();
+        const currentRoundElapsedAndNoProof = !proof && seedPhaseElapsed;
 
-            const hashes = generateRoundData(roundindex+1);
-            const created = await session.transact({
-                actions: [
-                    {
-                        account: contractName,
-                        name: 'startround',
-                        authorization: [session.permissionLevel],
-                        data: {
-                            round: roundindex+1,
-                            salt_proof: hashes.proofHash,
-                            seed_phase_duration: seedPhaseDuration,
-                            redeem_phase_duration: redeemPhaseDuration,
-                        }
-                    },
-                    {
-                        account: 'eosio',
-                        name: 'buyrambytes',
-                        authorization: [session.permissionLevel],
-                        data: {
-                            payer: session.actor,
-                            receiver: contractName,
-                            bytes: 1217
-                        }
-                    }
-                ]
-            }).then(async x => {
-                console.log(`Started round ${roundindex+1} - ${x.response.transaction_id}`);
-                return true;
-            }).catch(err => {
-                console.error(err)
-                return null;
-            });
+        if(currentRoundElapsedAndNoProof || currentRoundData.raw_salt !== "0000000000000000000000000000000000000000000000000000000000000000"){
+            await startNewRound(roundindex+1);
 
             return;
         }
 
-        if(+new Date(currentRoundData.start_date) + (currentRoundData.seed_phase_duration * 1000) <= +new Date()) {
+        if(seedPhaseElapsed) {
             console.log(`Starting redeem phase for round ${roundindex}`);
 
-            const seedProof = Buffer.from(jsonData[roundindex].proof, 'hex');
+
+            const seedProof = Buffer.from(proof.proof, 'hex');
 
             const started = await session.transact({
                 actions: [
