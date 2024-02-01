@@ -262,6 +262,21 @@
                 text-align: center;
                 -webkit-text-stroke: 2px black;
                 text-shadow: 0 4px 0 black, 1px 4px 0 black, -1px 4px 0 black;
+
+            }
+
+
+        }
+        @media (max-width: 960px) {
+            .ribbon {
+                img {
+                    display: none;
+                }
+
+                .text {
+                    font-size: 40px;
+                    top: 5px;
+                }
             }
         }
 
