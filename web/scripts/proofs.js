@@ -115,7 +115,7 @@ const generateRoundData = (index) => {
         });
 
         if(!roundindex){
-            return startNewRound(0);
+            return startNewRound(1);
         }
 
         const currentRoundData = await contract.table('round').get(null, {scope:roundindex}).then(x => {
