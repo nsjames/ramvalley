@@ -84,12 +84,12 @@ export default class ChainService {
             return null;
         });
 
-        const user = await this.contract.table('participants').get(this.session.actor, {scope:round}).then(x => {
+        const user = this.session ? await this.contract.table('participants').get(this.session.actor, {scope:round}).then(x => {
             return x;
         }).catch(err => {
             console.error(err)
             return null;
-        });
+        }) : null;
 
         totalRounds.set(roundindex);
         currentRound.set(round);
