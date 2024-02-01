@@ -18,7 +18,7 @@
         </figure>
     {:else}
         <TextHeader>Choose a round</TextHeader>
-        <section class="rounds">
+        <section id="rounds" class="rounds">
             {#each [...Array($totalRounds).keys()].map(x => x+1) as round}
                 <Animated delay={0.05*round+'s'}>
                     <Button square blue={round !== $currentRound} on:click={() => selectRound(round)}>{round}</Button>

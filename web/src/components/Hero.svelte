@@ -2,7 +2,7 @@
     <section id="hidablehero">
         <img class="logo" src="/images/logo.png" />
         <section class="cta">
-            <Button big>
+            <Button big on:click={moveToRounds}>
                 Play
             </Button>
         </section>
@@ -19,6 +19,11 @@
 
     import { onMount } from 'svelte';
     import Button from "./Button.svelte";
+
+    const moveToRounds = () => {
+        document.getElementById("rounds").scrollIntoView();
+        window.scrollBy(0, -100);
+    }
 
     onMount(() => {
 
